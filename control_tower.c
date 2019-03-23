@@ -54,11 +54,6 @@ main()
 	} // FIM DO PROCESSO FILHO
 } // FIM DO MAIN
 
-/* -----------------------------------------------------------------------------------------------------------
-Funcao Client:	Executa no processo PAI
-			Envia o nome do arquivo para o FILHO
-			Recebe os dados do FILHO e imprime na tela
------------------------------------------------------------------------------------------------------------ */
 
 pilot (readfd, writefd)
 
@@ -67,13 +62,16 @@ int readfd, // leitura do pipe2[0]
 
 {
 	srand(time (NULL));
-	int valor;
-	valor = rand() % 11;
-	printf("Oi %d", valor);
+	int hp;
+	hp = rand() % 11;
+	int id_question;
+	
 	char buff[MAXBUFF];
       while(1)	
        {
-	printf(" \n Piloto -> ");
+	//printf("HP: %d", hp);
+	id_question = generate_question();	
+	printf(" \n Piloto ->  %d", id_question);
 	gets(buff);
 	write(writefd, buff, 10);
 	 
@@ -85,11 +83,6 @@ int readfd, // leitura do pipe2[0]
 
 	  } // Fim da Funcao CLIENT
 
-/* -----------------------------------------------------------------------------------------------------------
-Funcao Server:	Executa no processo FILHO
-			Abre o arquivo solicitado e envia seu conteudo
-			para o PAI
------------------------------------------------------------------------------------------------------------ */
 tower(readfd, writefd)
 int readfd, // leitura do pipe1[0]
     writefd; // escrita no pipe2[1]
@@ -114,3 +107,28 @@ int readfd, // leitura do pipe1[0]
 
 
     } // Fim da Funcao Server
+
+generate_question()
+{
+	srand(time (NULL));
+
+	int id_question;
+	id_question = rand() % 11;
+
+	if(id_question == 1)
+	{
+		printf("Torre de comando, o trem de pouso não está funcionando");
+	}else if(id_question == 2)
+	{
+		printf("Torre de comando, a asa traseira está danificada");
+	}
+
+	return id_question;
+	
+}
+
+generate_answer(id_question)
+int id_question;
+{
+	printf("Gerando pergunta");
+}
