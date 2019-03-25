@@ -4,9 +4,8 @@
 #include <string.h>
 #include <stdlib.h>
 
-#define MAXBUFF 1024  // numero de caract. do buffer
+#define MAXBUFF 1024  
 
-// Como executar
 // rm exec && gcc control_tower.c -o exec && ./exec
 
 main()
@@ -97,7 +96,7 @@ int readfd, // leitura do pipe2[0]
        }
 
 
-	  } // Fim da Funcao CLIENT
+	  }
 
 tower(readfd, writefd)
 int readfd, // leitura do pipe1[0]
@@ -158,7 +157,7 @@ int readfd, // leitura do pipe1[0]
             }
 
 
-    } // Fim da Funcao Server
+    }
 
 generate_question()
 {
