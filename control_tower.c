@@ -118,7 +118,7 @@ int readfd, // leitura do pipe1[0]
 		generate_statement(buff_leitura);
 		generate_options(buff_leitura);	
                 
-                printf(" \n Resposta: ");
+                printf(" \nQual o seu comando? ");
 
 		gets(teclado);
 
