@@ -90,7 +90,7 @@ int readfd, // leitura do pipe2[0]
 		printf("\nParabéns, você salvou o dia!\n");
 	}else
 	{
-		printf("\nExplosao\n");
+		printf("\nSua resposta causaria uma explosao :(\n");
 	}
 	exit(0);
        }
