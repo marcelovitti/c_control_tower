@@ -72,22 +72,19 @@ int readfd, // leitura do pipe2[0]
 
 	if(id_question == 1)
 	{
-		printf("Piloto: A asa traseira esta danificada");		
 		buff_escrita = "d";
 	}else if(id_question == 2)
 	{
-		printf("Piloto: A asa traseira esta danificada2");
 		buff_escrita = "e";
 	}else
 	{
-		printf("Piloto: A asa traseira esta danificada3");
 		buff_escrita = "f";
 	}
 
 	write(writefd, buff_escrita, 10);
 	 
 	read(readfd,buff_leitura,10);
-	printf(" \n Recebi leitura: %s",buff_leitura);
+	//printf(" \n Recebi leitura: %s",buff_leitura);
 
 	if(strcmp(buff_leitura, "t") == 0)
 	{
@@ -117,24 +114,16 @@ int readfd, // leitura do pipe1[0]
 	while(1)	
           {
 	        read(readfd,buff_leitura,10);
-		printf(" \n Pergunta eh: %s",buff_leitura);	
+		//printf(" \n Pergunta eh: %s",buff_leitura);	
 		
-		generate_answer(buff_leitura);	
+		generate_statement(buff_leitura);
+		generate_options(buff_leitura);	
                 
                 printf(" \n Resposta: ");
 
 		gets(teclado);
 
 		if(strcmp(buff_leitura, "d") == 0)
-		{
-			if(strcmp(teclado, "b") == 0)
-			{
-				buff_escrita = "t";
-			}else
-			{
-				buff_escrita = "f";
-			}
-		}else if(strcmp(buff_leitura, "e") == 0)
 		{
 			if(strcmp(teclado, "a") == 0)
 			{
@@ -143,9 +132,18 @@ int readfd, // leitura do pipe1[0]
 			{
 				buff_escrita = "f";
 			}
-		}else if(strcmp(buff_leitura, "f") == 0)
+		}else if(strcmp(buff_leitura, "e") == 0)
 		{
 			if(strcmp(teclado, "c") == 0)
+			{
+				buff_escrita = "t";
+			}else
+			{
+				buff_escrita = "f";
+			}
+		}else if(strcmp(buff_leitura, "f") == 0)
+		{
+			if(strcmp(teclado, "b") == 0)
 			{
 				buff_escrita = "t";
 			}else
@@ -155,8 +153,8 @@ int readfd, // leitura do pipe1[0]
 		}
 		
 		write(writefd, buff_escrita, 10);
-		printf("Enviei Leitura: %s", buff_escrita);	
-
+		//printf("Enviei Leitura: %s", buff_escrita);	
+		exit(0);
             }
 
 
@@ -173,17 +171,32 @@ generate_question()
 	
 }
 
-generate_answer(buff_leitura)
+generate_statement(buff_leitura)
 char buff_leitura[MAXBUFF];
 {
 	if(strcmp(buff_leitura, "d") == 0)
 	{
-		printf("\nA) Acionar flaps de emergencia\nB) Esvaziar combustível e preparar para pouso.\nC) Diminuir potencia dos motores");
+		printf("\nTorre de controle, a asa traseira esta danificada!");
 	}else if(strcmp(buff_leitura, "e") == 0)
 	{
-		printf("\nA) Acionar flaps de emergencia\nB) Esvaziar combustível e preparar para pouso.\nC) Diminuir potencia dos motores");
+		printf("\nTorre de controle, estamos sem radares");
 	}else if(strcmp(buff_leitura, "f") == 0)
 	{
-		printf("\nA) Acionar flaps de emergencia\nB) Esvaziar combustível e preparar para pouso.\nC) Diminuir potencia dos motores");
+		printf("\nTorre de controle, a turbina 3 esta em chamas!!!");
+	}
+}
+
+generate_options(buff_leitura)
+char buff_leitura[MAXBUFF];
+{
+	if(strcmp(buff_leitura, "d") == 0)
+	{
+		printf("\nA) Aumentar potencia na turbina principal.\nB) Esvaziar combustível e preparar para pouso.\nC) Desativar piloto automatico.");
+	}else if(strcmp(buff_leitura, "e") == 0)
+	{
+		printf("\nA) Aumentar potencia na turbina principal.\nB) Esvaziar combustível e preparar para pouso.\nC) Desativar piloto automatico.");
+	}else if(strcmp(buff_leitura, "f") == 0)
+	{
+		printf("\nA) Aumentar potencia na turbina principal.\nB) Esvaziar combustível e preparar para pouso.\nC) Desativar piloto automatico.");
 	}
 }
