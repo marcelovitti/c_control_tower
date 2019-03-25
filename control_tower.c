@@ -7,8 +7,7 @@
 #define MAXBUFF 1024  // numero de caract. do buffer
 
 // Como executar
-// gcc control_tower.c -o exec
-// ./exec
+// rm exec && gcc control_tower.c -o exec && ./exec
 
 main()
 {
@@ -61,23 +60,43 @@ int readfd, // leitura do pipe2[0]
     writefd; // escrita no pipe1[1]
 
 {
-	srand(time (NULL));
-	int hp;
-	hp = rand() % 11;
 	int id_question;
 	
-	char buff[MAXBUFF];
+	char* buff_escrita;
+	char buff_leitura[MAXBUFF];
+
       while(1)	
        {
-	//printf("HP: %d", hp);
-	id_question = generate_question();	
-	printf(" \n Piloto ->  %d", id_question);
-	gets(buff);
-	write(writefd, buff, 10);
-	 
-	read(readfd,buff,10);
-	printf(" \n Piloto <- %s",buff);
+	
+	id_question = generate_question();
 
+	if(id_question == 1)
+	{
+		printf("Piloto: A asa traseira esta danificada");		
+		buff_escrita = "d";
+	}else if(id_question == 2)
+	{
+		printf("Piloto: A asa traseira esta danificada2");
+		buff_escrita = "e";
+	}else
+	{
+		printf("Piloto: A asa traseira esta danificada3");
+		buff_escrita = "f";
+	}
+
+	write(writefd, buff_escrita, 10);
+	 
+	read(readfd,buff_leitura,10);
+	printf(" \n Recebi leitura: %s",buff_leitura);
+
+	if(strcmp(buff_leitura, "t") == 0)
+	{
+		printf("\nParabéns, você salvou o dia!\n");
+	}else
+	{
+		printf("\nExplosao\n");
+	}
+	exit(0);
        }
 
 
@@ -87,21 +106,56 @@ tower(readfd, writefd)
 int readfd, // leitura do pipe1[0]
     writefd; // escrita no pipe2[1]
 
-{
-	char buff[MAXBUFF];
-	int n, fd;
+{	
+	
+	char teclado[MAXBUFF];
+	char buff_leitura[MAXBUFF];
+	char* buff_escrita;
 
+	int n, fd;
 	
 	while(1)	
           {
-	        read(readfd,buff,10);
-		printf(" \n Torre <- %s",buff);		
-                
-                printf(" \n Torre-> ");
-		gets(buff);
-		write(writefd, buff, 10);
-	 
+	        read(readfd,buff_leitura,10);
+		printf(" \n Pergunta eh: %s",buff_leitura);	
 		
+		generate_answer(buff_leitura);	
+                
+                printf(" \n Resposta: ");
+
+		gets(teclado);
+
+		if(strcmp(buff_leitura, "d") == 0)
+		{
+			if(strcmp(teclado, "b") == 0)
+			{
+				buff_escrita = "t";
+			}else
+			{
+				buff_escrita = "f";
+			}
+		}else if(strcmp(buff_leitura, "e") == 0)
+		{
+			if(strcmp(teclado, "a") == 0)
+			{
+				buff_escrita = "t";
+			}else
+			{
+				buff_escrita = "f";
+			}
+		}else if(strcmp(buff_leitura, "f") == 0)
+		{
+			if(strcmp(teclado, "c") == 0)
+			{
+				buff_escrita = "t";
+			}else
+			{
+				buff_escrita = "f";
+			}
+		}
+		
+		write(writefd, buff_escrita, 10);
+		printf("Enviei Leitura: %s", buff_escrita);	
 
             }
 
@@ -113,22 +167,23 @@ generate_question()
 	srand(time (NULL));
 
 	int id_question;
-	id_question = rand() % 11;
-
-	if(id_question == 1)
-	{
-		printf("Torre de comando, o trem de pouso não está funcionando");
-	}else if(id_question == 2)
-	{
-		printf("Torre de comando, a asa traseira está danificada");
-	}
+	id_question = rand() % 4;
 
 	return id_question;
 	
 }
 
-generate_answer(id_question)
-int id_question;
+generate_answer(buff_leitura)
+char buff_leitura[MAXBUFF];
 {
-	printf("Gerando pergunta");
+	if(strcmp(buff_leitura, "d") == 0)
+	{
+		printf("\nA) Acionar flaps de emergencia\nB) Esvaziar combustível e preparar para pouso.\nC) Diminuir potencia dos motores");
+	}else if(strcmp(buff_leitura, "e") == 0)
+	{
+		printf("\nA) Acionar flaps de emergencia\nB) Esvaziar combustível e preparar para pouso.\nC) Diminuir potencia dos motores");
+	}else if(strcmp(buff_leitura, "f") == 0)
+	{
+		printf("\nA) Acionar flaps de emergencia\nB) Esvaziar combustível e preparar para pouso.\nC) Diminuir potencia dos motores");
+	}
 }
